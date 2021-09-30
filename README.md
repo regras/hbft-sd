@@ -15,7 +15,7 @@ This repository contains two branches:
 
 - Moia, V. H. G., Breitinger, F., and Henriques, M. A. A. (2020b). The impact of excluding common blocks for approximate matching. Computers & Security, 89:101676.
 
-- Moia, V. H. G., Breitinger, F., and Henriques, M. A. A. (2020b). The impact of excluding common blocks for approximate matching. Computers & Security, 89:101676.
+- Moia, V.H.G., Breitinger, F., and Henriques, M.A.A. (2019). Understanding the effects of removing common blocks on approximate matching scores under different scenarios for digital forensic investigations. In XIX Brazilian Symposium on information and computational systems security (pp. 1-14). São Paulo-SP, Brazil: Brazilian Computer Society (SBC).
 ```
 
 ## Instructions
