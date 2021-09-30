@@ -4,7 +4,7 @@ This repository contains two branches:
 - The main, which contains the original `HBFT-SD` implmentation.
 - The `NCF-HBFT-SD` implementation, which is removes common blocks.
 
-# SD-HBFT
+# HBFT-SD
 This tool is an adaptation of `MRSH-HBFT`, a similarity search tool based on `MRSH-V2`. This implementation changes the feature extraction tool, which originally is `MRSH-V2`, to `sdhash`, aiming to improve its performance.
 
 ## Relevant Publications
