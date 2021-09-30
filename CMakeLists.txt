@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.5)
 
 #set(CMAKE_VERBOSE_MAKEFILE off)
 
-project(hbft_sdhash)
+project(hbft_sd)
 
 set(CMAKE_CXX_FLAGS "-w -std=c++14 -O3 -D_BSD_SOURCE -fpermissive")
 
@@ -28,7 +28,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/.)
 
 set_source_files_properties(${CPP_FILES} ${C_FILES} PROPERTIES LANGUAGE CXX)
 
-add_executable(hbft_sdhash  ${CPP_FILES} ${C_FILES})
+add_executable(hbft_sd  ${CPP_FILES} ${C_FILES})
 
 
-target_link_libraries(hbft_sdhash  -lssl -lcrypto )
+target_link_libraries(hbft_sd  -lssl -lcrypto )
