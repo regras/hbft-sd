@@ -15,7 +15,7 @@ This repository contains two branches:
 
 - Moia, V. H. G., Breitinger, F., and Henriques, M. A. A. (2020b). The impact of excluding common blocks for approximate matching. Computers & Security, 89:101676.
 
--Moia, V. H. G., Breitinger, F., and Henriques, M. A. A. (2020b). The impact of excluding common blocks for approximate matching. Computers & Security, 89:101676.
+- Moia, V. H. G., Breitinger, F., and Henriques, M. A. A. (2020b). The impact of excluding common blocks for approximate matching. Computers & Security, 89:101676.
 ```
 
 ## Instructions
