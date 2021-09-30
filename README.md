@@ -1,54 +1,98 @@
-# mrsh-hbft
-Approximate matching using Hierarchical Bloom Filter Trees. Based on [mrsh-v2](https://www.fbreitinger.de/?page_id=218) by [Frank Breitinger](https://www.fbreitinger.de).
+# Repository Organization
+
+This repository contains two branches:
+- The main, which contains the original `HBFT-SD` implmentation.
+- The `NCF-HBFT-SD` implementation, which is removes common blocks.
+
+# NCF-HBFT-SD
+`HBFT-SD` implementation which removes common blocks from files before adding it to the Bloom filter tree or searching in the Bloom filter tree.
 
 ## Relevant Publications
-D. Lillis, F. Breitinger, M. Scanlon, Expediting MRSH-v2 Approximate Matching with Hierarchical Bloom Filter Trees. In: Matoušek P., Schmiedecker M. (eds) Digital Forensics and Cyber Crime. ICDF2C 2017. Lecture Notes of the Institute for Computer Sciences, Social Informatics and Telecommunications Engineer- ing, vol 216. Springer, Cham, 2018 (doi: [10.1007/978-3-319-73697-6_11](https://dx.doi.org/10.1007/978-3-319-73697-6_11)).
-
-D. Lillis, F. Breitinger and M. Scanlon. Hierarchical Bloom Filter Trees for Approximate Matching. Journal of Digital Forensics, Security and Law (JDFSL), 13(1), 2018.
-
-# hbft-sd 
-Esta é uma modificação do mrsh-hbft, na qual o módulo de extração de features originalmente do mrsh-v2 foi trocado pelo sdhash.
-
-### Instruções
-### Para o sdhash é preciso a biblioteca boost
-1. Baixe de https://www.boost.org/users/history/version_1_73_0.html
-
-2. Extraia na pasta /usr/local/ com o comando?
-
 ```
-tar --bzip2 -xf boost_1_75_0.tar.bz2 - C/usr/local/
+- D. Lillis, F. Breitinger, M. Scanlon, Expediting MRSH-v2 Approximate Matching with Hierarchical Bloom Filter Trees. In: Matoušek P., Schmiedecker M. (eds) Digital Forensics and Cyber Crime. ICDF2C 2017. Lecture Notes of the Institute for Computer Sciences, Social Informatics and Telecommunications Engineer- ing, vol 216. Springer, Cham, 2018 (doi: [10.1007/978-3-319-73697-6_11](https://dx.doi.org/10.1007/978-3-319-73697-6_11)).
+
+- D. Lillis, F. Breitinger and M. Scanlon. Hierarchical Bloom Filter Trees for Approximate Matching. Journal of Digital Forensics, Security and Law (JDFSL), 13(1), 2018.
+
+- Moia, V. H. G., Breitinger, F., and Henriques, M. A. A. (2020b). The impact of excluding common blocks for approximate matching. Computers & Security, 89:101676.
+
+-Moia, V. H. G., Breitinger, F., and Henriques, M. A. A. (2020b). The impact of excluding common blocks for approximate matching. Computers & Security, 89:101676.
 ```
 
-3. Na pasta /usr/local/ execute:
-```
-$ sudo ./bootstrap.sh
-```
-```
-$ sudo ./b2 install
-```
-### Para compilar
-1. Execute
-```
-cmake ./
-```
-2. Execute
-```
-make
-```
-O executável gerado se encontrará na pasta bin
+## Instructions
 
-### Para executar
-1. Execute
+### Dependencies
+- Boost
+- OpenSSL (for sha1 hash)
+- CMake
+
+#### Boost
+1. Extract the library folder onto `HBFT-SD`'s main folder
+ 
+2. Inside boost folder Run:
 ```
-./mrsh-hbft
+$ ./bootstrap.sh --prefix = /usr/local/  
+$ ./b2 install
+```
+3. The setup is complete!
+
+
+### Compile and run:
+1.  Makefile:
+```  
+$ cmake .
+$ make
+```
+2. Run:
+```  
+$ ./hbft_sd
 ```
 
-#### Observações sobre os parâmetros
+### Configs
+There are seven main parameters to configurate:
 
-1.Parâmetros como blocksize e min_run estão definidos no arquivo test.c, e não no config.h
-
-2.O parâmetro BF_SIZE_IN_BYTES não é utilizado no test.c, apenas no arquivo main.c que supostamente iria ser o novo main mas a mudança não foi realizada ainda.
-
-3.O parâmetro de memória no test.c é o que muda o tamanho dos filtros a serem utilizados.
-
-4.Para mudar o tipo de árvore, com filtros variáveis ou fixos, é necessário alterar o define no arquivo config.h
+- The directory/file used to populate the tree: 
+    File ./src/main.c
+    ```
+    char *tree_dirname = "<directory_or_file_path>";
+    ```
+- The directory/file the user wants to search in the tree:
+   File ./src/main.c
+   ```
+   char *search_dirname = "./src/helper.c";
+   ```
+- The number of leaves used on the tree
+   File ./src/main.c
+   ```
+   int leaf_num = <number>;
+   ```
+- Minimal number of consecutive features to consider a match:
+  File ./src/main.c
+  ```
+  mode->min_run = <number>;
+  ```
+  File ./header/config.h
+  ```
+  #define MIN_RUN <number>
+  ```
+- The Root Bloom Filter Size:
+  File ./header/config.h
+  ```
+  #define BF_SIZE <number>
+  ```
+- The path to the feature database: 
+  File ./src/sdhash.cpp
+  ```
+  const char* DATA_BASE = "<absolute_path>";
+  ```
+- The minimum number of files which a feature appears to be considered a common feature (N):
+  File ./src/sdhash.cpp
+  ```
+  #define MAXIMUM_NUM_COMMON_FEAT  <number>
+  ```
+ 
+  
+ ### Observations
+ - The original implementation used a memory threshold given by the user to calculate the root Bloom filter size. This implementation uses the size configured on `BF_SIZE`  (`config.h` file), which is enable by the `#define NEW_SIZE`. If `NEW_SIZE` is not enabled, the tool will use the memory threshold defined at `main.c` file with `unsigned long mem_upper_limit` variable, however this funcionality was not tested on `HBFT-SD` so be careful.
+ - Originally, `MRSH-HBFT`, allowed multiple files inserted on a single leaf node, `HBFT-SD` allows only one file per leaf node. This was implemented aiming to improve the tool's performance.
+ - Enable `#define LOGGING` (`config.h`) to print debbuging information when using this tool.
+ 
